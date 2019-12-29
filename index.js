@@ -124,6 +124,8 @@ try {
     // console.log('res.t.tokenDetails', res.t.tokenDetails);
     // console.log('res.t.tokenStats', res.t.tokenStats);
 
+  //  console.log('res', res);
+
 // GO THROUGH UNCONFIRMED ARRAY OF TX
 //console.log(res.u);
 if (res.u.length < 1){ 
@@ -140,6 +142,9 @@ if (res.u.length < 1){
   //console.log(res.u.in[0]);
  // console.log(res.u.slp);
 
+    console.log('res.u', res.u);
+   // console.log('res.u.out', res.u);
+
    //for each UNconfirmed transactions...
     res.u.forEach((v) => {
    // console.log('foreach debug:');
@@ -148,14 +153,46 @@ if (res.u.length < 1){
 
    //DateTime doesn't exist in unconfirmed blocks because the timestamp is based the first block that confirms it.
 
-   // io.emit('tx-c', 'Token: ' + v.slp.detail.symbol + ', ID: ' + v.slp.detail.tokenIdHex);
+     // io.emit('tx-c', 'Token: ' + v.slp.detail.symbol + ', ID: ' + v.slp.detail.tokenIdHex);
     io.emit('tx-u', 'Tx Type: ' + v.slp.detail.transactionType);
    // io.emit('tx-c', );
 
-    //LATEST UNCONFIRMED TRANSACTIONS
+
+   //FOR EACH INPUTS
+
+
+  // console.log('v.slp.detail', v.slp.detail);
+
+    //      v.slp.detail.inputs.forEach((o) => {
+    //  // console.log('new output');
+    // // console.log(o.address);
+    //   // if(o.address == 'simpleledger:qqs74sypnfjzkxeq0ltqnt76v5za02amfgy9zcr9mk'){
+    //   //   io.emit('tx', 'Output #' + n + ' Addr: ' + o.address + ' (SOUR Faucet at sour-faucet.ddns.net)');
+    //   //   faucet = true;
+    //   // }else{
+    //  io.emit('tx-uo', 'Output #' + out + ' -');
+
+    //   if(o.address == 'simpleledger:qqs74sypnfjzkxeq0ltqnt76v5za02amfgy9zcr9mk'){
+    //    io.emit('tx-uo', 'Addr: ' + o.address);
+    //    io.emit('tx-uo', 'Amnt: ' + numberWithCommasPeriod(o.amount) + ' SOUR');
+    //    io.emit('tx-uo', '*This is the SOUR FAUCET at http://sour-faucet.ddns.net');
+
+    //   }
+    //   else{
+    //     io.emit('tx-uo', 'Addr: ' + o.address);
+    //     io.emit('tx-uo', 'Amnt: ' + numberWithCommasPeriod(o.amount) + ' SOUR');
+
+    //   }
+
+    //  out++;
+    // });
+
+
+    //LATEST UNCONFIRMED TRANSACTIONS OUTPUTS
     let out = 1;
     let faucet = false;
     
+    //FOR EACH OUTPUTS
     v.slp.detail.outputs.forEach((o) => {
      // console.log('new output');
     // console.log(o.address);
@@ -179,6 +216,7 @@ if (res.u.length < 1){
 
      out++;
     });
+
 
     });
     //io.emit('break', '.');
@@ -205,6 +243,8 @@ if (res.u.length < 1){
    // console.log('foreach debug:');
    // console.log(v.slp.detail.outputs);
    // console.log(v.slp.detail);
+
+   //console.log('confirmed object: ', v);
 
 
    let timestamp = v.blk.t;
