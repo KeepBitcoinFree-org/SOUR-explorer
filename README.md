@@ -1,8 +1,10 @@
-# SOUR-tracker
+# SOUR-Explorer
 <center>
 <img src="https://keepbitcoinfree.org/wp-content/uploads/2019/10/SOUR-2.jpg" height="370" width="370" />
 </center>
-SOUR-tracker is a Node.js app utilizing Socket.io & SLPDB to gather info about the latest SOUR transactions.
+SOUR-Explorer is a Node.js app utilizing Socket.io & SLPDB to gather the latest info about the SOUR SLP token & transactions. The SOUR-Explorer is powered by SLPDB, SLP-sdk, Socket.io & Node.js and is a work in progress.
+
+Visit the SOUR-explorer at http://sour-explorer.ddns.net
 
 More info about SOUR at https://keepbitcoinfree.org/SOUR
 
