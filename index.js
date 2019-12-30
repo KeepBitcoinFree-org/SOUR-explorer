@@ -142,7 +142,7 @@ if (res.u.length < 1){
   //console.log(res.u.in[0]);
  // console.log(res.u.slp);
 
-    console.log('res.u', res.u);
+   // console.log('res.u', res.u);
    // console.log('res.u.out', res.u);
 
    //for each UNconfirmed transactions...
@@ -159,34 +159,6 @@ if (res.u.length < 1){
 
 
    //FOR EACH INPUTS
-
-
-  // console.log('v.slp.detail', v.slp.detail);
-
-    //      v.slp.detail.inputs.forEach((o) => {
-    //  // console.log('new output');
-    // // console.log(o.address);
-    //   // if(o.address == 'simpleledger:qqs74sypnfjzkxeq0ltqnt76v5za02amfgy9zcr9mk'){
-    //   //   io.emit('tx', 'Output #' + n + ' Addr: ' + o.address + ' (SOUR Faucet at sour-faucet.ddns.net)');
-    //   //   faucet = true;
-    //   // }else{
-    //  io.emit('tx-uo', 'Output #' + out + ' -');
-
-    //   if(o.address == 'simpleledger:qqs74sypnfjzkxeq0ltqnt76v5za02amfgy9zcr9mk'){
-    //    io.emit('tx-uo', 'Addr: ' + o.address);
-    //    io.emit('tx-uo', 'Amnt: ' + numberWithCommasPeriod(o.amount) + ' SOUR');
-    //    io.emit('tx-uo', '*This is the SOUR FAUCET at http://sour-faucet.ddns.net');
-
-    //   }
-    //   else{
-    //     io.emit('tx-uo', 'Addr: ' + o.address);
-    //     io.emit('tx-uo', 'Amnt: ' + numberWithCommasPeriod(o.amount) + ' SOUR');
-
-    //   }
-
-    //  out++;
-    // });
-
 
     //LATEST UNCONFIRMED TRANSACTIONS OUTPUTS
     let out = 1;
@@ -486,20 +458,27 @@ var querySOURtoken = {
 
  res.sendFile(__dirname + '/index.html');
 
+
+
+
+
 });
 
-// io.on('connection', function(socket){
-//   socket.on('chat message', function(msg){
-//     io.emit('chat message', msg);
+//  io.on('connection', function(socket){
+//    console.log('new user connected to socket');
 
-    //socket.emit('chat message', msg);
+//    socket.on('disconnect', function(){
+//     console.log('user disconnected from socket');
+//     //TODO: force refresh the page on every disconnect so that the info doesn't keep replicating
+//     let refresh = true;
+//     io.emit('refresh', refresh);
+//     console.log('refreshed');
+//   });
 
 
-//see if we can find SOUR transactions & label them or pull any info at all.
-//should be able to identify tx coming from the Faucet at least. (Faucet rolls)
 
 
-//});
+// });
 
 http.listen(port, function(){
   console.log('BOOTING UP....')
