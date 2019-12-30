@@ -499,31 +499,6 @@ var querySOURtoken = {
 //should be able to identify tx coming from the Faucet at least. (Faucet rolls)
 
 
-//ZCASH.FLYPOOL.ORG TRACKING ZEC MINER via flypool api
-
-//request('https://api-zcash.flypool.org/miner/:' + msg + '/dashboard', { json: true }, (err, res, body) => {
- // if (err) { return console.log(err); }
-  //console.log(body);
-  //console.log(body.data);
-  	//socket.emit('chat message', 'DATA: ');
- 	//socket.emit('update', JSON.stringify(body.data));
-
-  	//socket.emit('chat message', 'WORKERS: ');
- 	//socket.emit('update', JSON.stringify(body.workers));
-
- //	  	socket.emit('chat message', 'CURRENT STATS: ');
- //	socket.emit('update', JSON.stringify(body.currentStatistics	));
-
- //	  	socket.emit('chat message', 'SETTINGS: ');
- //	socket.emit('update', JSON.stringify(body.settings));
-
-//	});
-
-// https://api-zcash.flypool.org//miner/:miner/dashboard'
-
-// https://api-zcash.flypool.org//miner/:t1eAYNzJkzCHzbnPKHqM78D5wx6FdvGRu7Q/dashboard
-// t1eAYNzJkzCHzbnPKHqM78D5wx6FdvGRu7Q
-
 //});
 
 http.listen(port, function(){

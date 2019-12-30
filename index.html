@@ -168,15 +168,60 @@
         background: #00c3ff;  /* fallback for old browsers */
         background: -webkit-linear-gradient(to left, #ffff1c, #00c3ff);  /* Chrome 10-25, Safari 5.1-6 */
         background: linear-gradient(to left, #ffff1c, #00c3ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-
-
         text-decoration: none;}
+
+        /* SIDEBAR NAV for links to github, kbf.org, etc */        
+        .sidenav {
+          width: 50px;
+          position: fixed;
+          z-index: 1;
+          top: 20px;
+          left: 20px;
+          background: #eee;
+          overflow-x: hidden;
+          padding: 8px 0;
+        }
+
+        .sidenav a {
+          padding: auto;
+          padding-top:10px;
+          text-decoration: none;
+          font-size: 25px;
+          color: #2196F3;
+          display: block;
+          text-align:center;
+        }
+
+        .sidenav a:hover {
+          color: #064579;
+        }
+
+        .main {
+          margin-left: 140px; /* Same width as the sidebar + left position in px */
+          font-size: 28px; /* Increased text to enable scrolling */
+          padding: 0px 10px;
+        }
+
+        @media screen and (max-height: 450px) {
+          .sidenav {padding-top: 15px;}
+          .sidenav a {font-size: 18px;}
+        }
 
     </style>
 
   </head>
   <body>
+      <div class="sidenav">
+        <a href="https://github.com/KeepBitcoinFree-org/SOUR-explorer" target="_blank"><img src="https://duckduckgo.com/i/73cc1cc7.png" height="30px" width="30px" /></a>
+        
+          <a href="https://keepbitcoinfree.org" target="_blank"><img src="https://keepbitcoinfree.org/wp-content/uploads/2019/10/profile-tilt-WHITEB.png" height="30px" width="30px" /></a>
+
+          <a href="https://memo.cash/topic/SOUR"><img src="http://144.202.20.179:8080/img/memo-m.png" height="30px" width="30px" /></a>
+
+
+          <!-- <a href="#contact">Contact</a> -->
+      </div>
+
        <div style="width:70%;margin: 0 auto;">
 
         <div style="float:right; display: inline;padding-right:75px;padding-top:15px;">
