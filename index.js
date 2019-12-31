@@ -248,7 +248,7 @@ if (res.u.length < 1){
 
 
       if((faucet == true) && (out == 1)){
-        socket.emit('tx-co-f', ' This is the SOUR Faucet');
+        socket.emit('tx-uo-f', ' This is the SOUR Faucet');
       }
 
       //io.emit('tx-uo', 'Output #' + out + ' -');
