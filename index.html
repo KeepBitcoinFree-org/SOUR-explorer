@@ -208,6 +208,49 @@
           .sidenav a {font-size: 18px;}
         }
 
+        .faucet-logo {
+          float:right;
+          display:inline;
+        }
+
+        .faucet-logo a {
+        background:none;
+        display: block;
+        padding: .4em .4em .4em 2em;
+        *padding: .4em;
+        margin: .5em 0;
+        color: #000;
+        text-decoration: none;
+        -moz-border-radius: 0em;
+        -webkit-border-radius: 0em;
+        border-radius: 0em;
+        transition: all .2s ease-in-out;
+        }
+
+        .faucet-logo a:hover {
+
+          transform: scale(2);
+          background:none;
+        }
+
+      .faucet-logo a:before{
+      content: none;
+      position: absolute;
+      left: -1.3em;
+      top: 50%;
+      margin-top: -1.3em;
+      background: none;
+      line-height: 0em;
+      height:0em;
+      width:0em;
+      border: none;
+      text-align: center;
+      font-weight: bold;
+      -moz-border-radius: 0em;
+      -webkit-border-radius: 0em;
+      border-radius: 0em;
+      }
+
     </style>
 
   </head>
@@ -284,6 +327,13 @@
           $('#txupdate').append($('<li style="font-weight:bold;line-height:.3em;text-align:center;">').text(msg));
         //  window.scrollTo(0, document.body.scrollHeight);
         });
+        //faucet-image
+        socket.on('tx-co-f', function(msg){
+          $('#txupdate-c').append($('<span class="faucet-logo"><a href="http://sour-faucet.ddns.net" target="_blank"><img src="https://keepbitcoinfree.org/wp-content/uploads/sour-faucet-2.png" height="40px" width="80px" /></a></span>'));
+        //  window.scrollTo(0, document.body.scrollHeight);
+        });
+
+
       });
     </script>
   </body>
