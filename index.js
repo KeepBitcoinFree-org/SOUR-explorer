@@ -244,16 +244,21 @@ if (res.u.length < 1){
     //FOR EACH OUTPUTS UNCONFIRMED
     v.slp.detail.outputs.forEach((o) => {
 
-      socket.emit('tx-uo', 'Output #' + out + ' -');
-
-
+    
       if((faucet == true) && (out == 1)){
         socket.emit('tx-uo-f', ' This is the SOUR Faucet');
       }
 
       //io.emit('tx-uo', 'Output #' + out + ' -');
+        socket.emit('tx-uo', 'Output #' + out + ' -');
         socket.emit('tx-uo', 'Addr: ' + o.address);
-        socket.emit('tx-uo', 'Amnt: ' + numberWithCommasPeriod(o.amount) + ' SOUR');
+        
+        if((faucet == true) && (out == 1)){
+          socket.emit('tx-uo', 'Amnt: ' + numberWithCommasPeriod(o.amount) + ' SOUR (WON rolling 🎲🎲 at the SOUR Faucet!)');
+        }else{
+          socket.emit('tx-uo', 'Amnt: ' + numberWithCommasPeriod(o.amount) + ' SOUR');
+        }
+
         out++;
       });
 

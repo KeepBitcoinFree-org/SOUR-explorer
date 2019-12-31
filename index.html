@@ -267,8 +267,9 @@
 
         <a href="http://sour-faucet.ddns.net" target="_blank"><img src="https://keepbitcoinfree.org/wp-content/uploads/sour-faucet-2.png" height="30px" width="30px" /></a>
 <!--
-        <input type='text' id='link_id'>
-        <input type='button' id='link' value='Search' onClick='javascript:goTo()'> -->
+        <input type='text' id='link_id' />
+        <input type='button' id='link' value='Search' onClick='goTo()' /> 
+     -->
       </div>
 
        <div style="width:70%;margin: 0 auto;">
@@ -334,13 +335,17 @@
           $('#txupdate-c').append($('<span class="faucet-logo"><a href="http://sour-faucet.ddns.net" target="_blank"><img src="https://keepbitcoinfree.org/wp-content/uploads/sour-faucet-2.png" height="40px" width="80px" /></a></span>'));
         //  window.scrollTo(0, document.body.scrollHeight);
         });
+        socket.on('tx-uo-f', function(msg){
+          $('#txupdate-c').append($('<span class="faucet-logo"><a href="http://sour-faucet.ddns.net" target="_blank"><img src="https://keepbitcoinfree.org/wp-content/uploads/sour-faucet-2.png" height="40px" width="80px" /></a></span>'));
+        //  window.scrollTo(0, document.body.scrollHeight);
+        });
 
 
       });
 
-      $(function goTo() {
+      function goTo() {
         location.href = document.getElementById('link_id').value;
-      });
+      }
     </script>
   </body>
 </html>
