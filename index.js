@@ -241,7 +241,7 @@ if (res.u.length < 1){
 
     }
     
-    //FOR EACH OUTPUTS
+    //FOR EACH OUTPUTS UNCONFIRMED
     v.slp.detail.outputs.forEach((o) => {
 
       socket.emit('tx-uo', 'Output #' + out + ' -');
@@ -251,7 +251,7 @@ if (res.u.length < 1){
         socket.emit('tx-co-f', ' This is the SOUR Faucet');
       }
 
-      io.emit('tx-uo', 'Output #' + n + ' -');
+      //io.emit('tx-uo', 'Output #' + out + ' -');
         socket.emit('tx-uo', 'Addr: ' + o.address);
         socket.emit('tx-uo', 'Amnt: ' + numberWithCommasPeriod(o.amount) + ' SOUR');
         out++;
