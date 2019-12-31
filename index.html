@@ -266,7 +266,9 @@
         <a href="https://github.com/KeepBitcoinFree-org/SOUR-explorer" target="_blank"><img src="https://duckduckgo.com/i/73cc1cc7.png" height="30px" width="30px" /></a>
 
         <a href="http://sour-faucet.ddns.net" target="_blank"><img src="https://keepbitcoinfree.org/wp-content/uploads/sour-faucet-2.png" height="30px" width="30px" /></a>
-
+<!--
+        <input type='text' id='link_id'>
+        <input type='button' id='link' value='Search' onClick='javascript:goTo()'> -->
       </div>
 
        <div style="width:70%;margin: 0 auto;">
@@ -334,6 +336,10 @@
         });
 
 
+      });
+
+      $(function goTo() {
+        location.href = document.getElementById('link_id').value;
       });
     </script>
   </body>
