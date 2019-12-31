@@ -319,9 +319,10 @@ if (res.u.length < 1){
 
         socket.emit('tx-co', 'Output #' + n + ' -');
         socket.emit('tx-co', 'Addr: ' + o.address);
-        socket.emit('tx-co', 'Amnt: ' + numberWithCommasPeriod(o.amount) + ' SOUR');
         if((faucet == true) && (n == 1)){
           socket.emit('tx-co', 'Amnt: ' + numberWithCommasPeriod(o.amount) + ' SOUR (WON at the SOUR Faucet)');
+        }else{
+          socket.emit('tx-co', 'Amnt: ' + numberWithCommasPeriod(o.amount) + ' SOUR');
         }
         n++;
     });
