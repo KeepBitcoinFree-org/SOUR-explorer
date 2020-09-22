@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>SOUR Tracker</title>
+    <title>SOUR SLP Token Explorer</title>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
@@ -251,6 +251,24 @@
       border-radius: 0em;
       }
 
+
+      .glow {
+  color: #fff;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ffd700, 0 0 40px #ffd700, 0 0 50px #ffd700, 0 0 60px #ffd700, 0 0 70px #ffd700;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #90d2d8, 0 0 40px #90d2d8, 0 0 50px #90d2d8, 0 0 60px #90d2d8, 0 0 70px #90d2d8, 0 0 80px #90d2d8;
+  }
+}
+
     </style>
 
   </head>
@@ -261,7 +279,7 @@
 
         <a href="https://keepbitcoinfree.org" target="_blank"><img src="https://keepbitcoinfree.org/wp-content/uploads/2019/10/profile-tilt-WHITEB.png" height="30px" width="30px" /></a>
 
-        <a href="https://memo.cash/topic/SOUR"><img src="http://144.202.20.179:8080/img/memo-m.png" height="30px" width="30px" /></a>
+        <a href="https://memo.cash/token/6448381f9649ecacd8c30189cfbfee71a91b6b9738ea494fe33f8b8b51cbfca0?for-sale" target="_blank" ><img src="http://sour-faucet.ddns.net/img/memo-m.png" height="30px" width="30px" /></a>
 
         <a href="https://github.com/KeepBitcoinFree-org/SOUR-explorer" target="_blank"><img src="https://duckduckgo.com/i/73cc1cc7.png" height="30px" width="30px" /></a>
 
@@ -278,10 +296,23 @@
             <a href="https://keepbitcoinfree.org/SOUR" target="_blank"><img src="https://keepbitcoinfree.org/wp-content/uploads/SOUR.png"  height="350px" width="350px" /></a>
 
   </div >
-<ul style="font-weight: bold;" id="messages"></ul>
+<ul style="font-weight: bold;" id="messages">
+  
+  <p class="glow">
+  <a href="https://memo.cash/token/6448381f9649ecacd8c30189cfbfee71a91b6b9738ea494fe33f8b8b51cbfca0?for-sale" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color:black;">
+&nbsp; &nbsp; &nbsp; GET &nbsp; <img src="https://tokens.bch.sx/64/6448381f9649ecacd8c30189cfbfee71a91b6b9738ea494fe33f8b8b51cbfca0.png" /> on  Memo.cash DEX &nbsp;
+<img src="https://keepbitcoinfree.org/wp-content/uploads/memo-logo-large.png" height="50px" width="90px" /> 
+</a><br /><br /> </p>
+</ul>
+
+
     </div>
    
-   <center><button class="btn" onClick="window.location.reload();">Refresh Page</button></center><br /><br />
+
+   <center>
+
+
+    <button class="btn" onClick="window.location.reload();">Refresh Page</button></center><br /><br />
     <!-- UNCONFIRMED TX -->
    <div style="width:100%;">
       <div class="list-type2" style="width:70%;margin: 0 auto;">
@@ -349,3 +380,4 @@
     </script>
   </body>
 </html>
+
