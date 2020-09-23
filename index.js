@@ -33,6 +33,14 @@ let SLP = new SLPSDK({ restURL: 'https://slpdb.electroncash.de'});
 // TODO: Add Socket to SLPDB to automatically update info when new tx arise
 
 
+// get BCH Price and set globally. Can be called in each function to set the price when needed or will have the last set price.
+let usd = 0;
+async function setBCHprice(){
+  usd = await bitbox.Price.current('usd');
+  console.log('set bch price at '+ usd);
+}
+
+
 //SLPDB QUERYS -
 
 //get all memo transactions
@@ -159,348 +167,7 @@ function sendPOSpayout(sendConfig){
 
 
 
-// TODO: restrict to my IP only. 176.113.74.72
 
-  // IT FUCKING WORKS!! 50 at a time right now.
-function payoutProofOfSOUR(res){
-
-
-// let userIP = req.ip;
-
-// if(userIP === '176.113.74.72'){
-
-let dividendPayoutsSLP = new Array();
-
-//set up sample for testing
-// let slp = 'simpleledger:qpvfjghxe8w5p75yg07d6mmst0mewrt08ygmjm5z5g';
-// let bal = 200;
-// let percent = .0001;
-// let nextPOSpayout = 2;
-  
-  //create list to pay out for testing. 
-    dividendPayoutsSLP.push(
-   
-      {"address":"simpleledger:qpvfjghxe8w5p75yg07d6mmst0mewrt08ygmjm5z5g","balance":1200,"percent":0.0019356118711076056,"POSpayout":4.35611871},
-      {"address":"simpleledger:qzlq5chhphjzu3gl6qs4fx4sgevv0cqfzyucvyy2aa","balance":1063.04961765,"percent":0.0017147095495831178,"POSpayout":5.1470955}, 
-      {"address":"simpleledger:qqs74sypnfjzkxeq0ltqnt76v5za02amfgy9zcr9mk","balance":2063.04961765,"percent":0.0017147095495831178,"POSpayout":5.234955}
-
-     )
-
-//first 50, wait for confirmation
-
-
-// second 50
-// 
-
-// third 50
-
- // {
- //        'slp' : slp,
- //        'bal' : bal,
- //        'percent' : percent,
- //        'nextPOSpayout': nextPOSpayout
- //        }
-  // set up wallet for paying out SOUR POS payments.
-//   const mnemonic = 'ten trigger auction nominee version picnic brick tuition doll vapor tuition clap';
-
-    // root seed buffer
-    const rootSeed = SLP.Mnemonic.toSeed(mnemonic)
-    // master HDNode
-    let masterHDNode
-    if (NETWORK === `mainnet`) masterHDNode = SLP.HDNode.fromSeed(rootSeed)
-    else masterHDNode = SLP.HDNode.fromSeed(rootSeed, "testnet") // Testnet
-
-    // HDNode of BIP44 account
-    const account = SLP.HDNode.derivePath(masterHDNode, "m/44'/145'/0'")
-
-    const change = SLP.HDNode.derivePath(account, "0/0")
-
-    // get the cash address
-    const cashAddress = SLP.HDNode.toCashAddress(change)
-    const slpAddress = SLP.HDNode.toSLPAddress(change)
-
-    console.log(cashAddress);
-    console.log(slpAddress);
-
-    const fundingAddress = slpAddress
-    const fundingWif = SLP.HDNode.toWIF(change) // <-- compressed WIF format
-   // const tokenReceiverAddress = SLPADDR
-    const bchChangeReceiverAddress = cashAddress
-
-    // Exit if user did not update the SLPADDR.
-/*    if (!SLPADDR || SLPADDR === "") {
-      console.log(
-        `SLPADDR value is empty. Update the code with the SLPADDR of your token.`
-      )
-      return
-    }
-
-    // Exit if user did not update the TOKENID.
-    if (!TOKENID || TOKENID === "") {
-      console.log(
-        `TOKENID value is empty. Update the code with the TOKENID of your token.`
-      )
-      return
-    }*/
-
-
-const waitFor = (ms) => new Promise(r => setTimeout(r, ms));
-
-const start = async () => {
-  
-  await asyncForEach(dividendPayoutsSLP, async (balance) => {
-    await waitFor(4000);
-
-    //do things inside our loop like send the token tx
-
-      console.log(balance);
-
-      let tokenReceiverAddress = balance.address;
-
-  //console.log('tokenReceiverAddress ', tokenReceiverAddress);
-
-    // set up send config for send
-      var sendConfig = {
-      fundingAddress,
-      fundingWif,
-      tokenReceiverAddress,
-      bchChangeReceiverAddress,
-      tokenId: SOURid,
-      amount: balance.POSpayout
-    }
-
-    console.log(sendConfig);
-
-
-    const sendTxId = await SLP.TokenType1.send(sendConfig)
-
-    console.log('sendTxId: ', sendTxId);
-
-    console.log('\nView this transaction on the block explorer:')
-    if (NETWORK === 'mainnet') {
-      console.log('https://explorer.bitcoin.com/bch/tx/'+sendTxId);
-     // res.send('https://explorer.bitcoin.com/bch/tx/'+sendTxId);
-    }
-    else console.log('https://explorer.bitcoin.com/tbch/tx/'+sendTxId)
-
-
-  });
-
-  //after we finish going thru all objs in array
-  console.log('Done');
-}
-start();
-
-async function asyncForEach(array, callback) {
-  for (let index = 0; index < array.length; index++) {
-    await callback(array[index], index, array);
-  }
-}
-
-
-//res.send('test done');
-
-
-  //send payment using details from Array
-// dividendPayoutsSLP.forEach(async function (balance) {
-
-// try{
-
-
-
-//   //sendPOSpayout();
-
-//   console.log('balance ', balance);
-// //  console.log(balance.slp);
-// //  console.log(balance.nextPOSpayout);
-
-//   let tokenReceiverAddress = balance.address;
-
-//   //console.log('tokenReceiverAddress ', tokenReceiverAddress);
-
-//     // set up send config for send
-//       var sendConfig = {
-//       fundingAddress,
-//       fundingWif,
-//       tokenReceiverAddress,
-//       bchChangeReceiverAddress,
-//       tokenId: SOURid,
-//       amount: balance.POSpayout
-//     }
-
-//     console.log('sendConfig ', sendConfig);
-
-//     // SEND EACH PAYMENT \\
-//       //console.log(`createConfig: ${util.inspect(createConfig)}`)
-
-//     // Generate, sign, and broadcast a hex-encoded transaction for sending
-//     // the tokens.
-    
-//     sendPOSpayout(sendConfig)
-
-
-// }catch(error){
-//   console.error(error);
-// }
-
-
-// })
-
-// }else{
-
-//   res.send('You are not authorized, mothafucka.')
-// }
-}
-
-
-// GET POS SOUR BALANCES > 400 SOUR \\ GET ALL SOUR BALANCE \\ GET BCH AIRDROP BALANCES with payout > .00005 BCH.
-
-function getAllSOURbalances(socket, res){
-
-  let minBCHpayout = .00005;
-  let SOURbalances = new Array();
-  let dividendPayoutsBCH = new Array();
-  let dividendPayoutsSLP = new Array();
-  let dividendlengthBCH = 0;
-  let dividendlengthSLP = 0;
-  let sourtoshiBal = 0;
-  let totalSOUR = 0;
-  let index1 = 0;
-  let totalSOURpayoutAddedup = 0;
-
-  (async () => {
-  try {
-    let balances = await SLP.Utils.balancesForToken(
-      SOURid
-    )
-   // console.log('SOUR BALANCES: ', balances);
-
-
-balances.forEach((balance) => {
-      let slp = balance.slpAddress;
-      let bal = parseInt(balance.tokenBalanceString);
- //   let percent = (bal / 42000000).toFixed(16);
-
-   if((slp === 'simpleledger:qpvfjghxe8w5p75yg07d6mmst0mewrt08ygmjm5z5g') || (slp === 'simpleledger:qzlq5chhphjzu3gl6qs4fx4sgevv0cqfzyucvyy2aa') || (slp === 'simpleledger:qqs74sypnfjzkxeq0ltqnt76v5za02amfgy9zcr9mk') || (slp === 'simpleledger:qrkxepw4ckmt5zrp784lrrkr69kwrn90cyvjwwfqx2')){
-
-      console.log('removing ' + slp);
-
-      sourtoshiBal = sourtoshiBal + bal;
-      
-      balances.splice(index1, 1);
-
-    }else{
-
-      totalSOUR = totalSOUR + bal;
-    }
-
-index1++;
-})
-  
-  let sourBurned = ((42000000 - sourtoshiBal) - totalSOUR);
-
-  console.log('SOURTOSHI BAL: '+ numberWithCommas(sourtoshiBal));
-  console.log('TOTAL SOUR IN CIRCULATION: '+ numberWithCommas(totalSOUR));
-  console.log('TOTAL SOUR BURNED: '+ numberWithCommas(sourBurned));
-
- //  setTimeout(function(){console.log('pausing 2 sec to remove sourtoshi addresses')},500);
-
-     // go through each object in balances to splice out SOURtoshi addresses & add them up to determine sour in circulation, etc.
-     balances.forEach((balance) => {
-
-      let slp = balance.slpAddress;
-      let bal = Number(balance.tokenBalanceString);
-      let percent = (bal / totalSOUR);
-      //.toFixed(8)
-
-      let totalSOURPayout = 10000;
-
-      let nextPOSpayout = Number((totalSOURPayout * percent).toFixed(8));
-
-      // SOURtoshi addresses //
-
-      // bitcoincash:qzlq5chhphjzu3gl6qs4fx4sgevv0cqfzysr8l32rr - memo , bitcoincash:qqs74sypnfjzkxeq0ltqnt76v5za02amfgg7frk99g - faucet, simpleledger:qpvfjghxe8w5p75yg07d6mmst0mewrt08ygmjm5z5g - mobile badger
-      // simpleledger:qpvfjghxe8w5p75yg07d6mmst0mewrt08ygmjm5z5g
-      // simpleledger:qzlq5chhphjzu3gl6qs4fx4sgevv0cqfzyucvyy2aa
-      // simpleledger:qqs74sypnfjzkxeq0ltqnt76v5za02amfgy9zcr9mk
-
-
-    // remove SOURtoshi & dev addresses //
-
-    // if(slp === 'simpleledger:qpvfjghxe8w5p75yg07d6mmst0mewrt08ygmjm5z5g'){
-    //   console.log(slp);
-    // }
-
-    if((slp === 'simpleledger:qpvfjghxe8w5p75yg07d6mmst0mewrt08ygmjm5z5g') || (slp === 'simpleledger:qzlq5chhphjzu3gl6qs4fx4sgevv0cqfzyucvyy2aa') || (slp === 'simpleledger:qqs74sypnfjzkxeq0ltqnt76v5za02amfgy9zcr9mk')){
-
-      console.log(slp);
-
-     // sourtoshiBal = 
-    
-
-    }else{
-
-      // Determine BCH payouts, build lists for SLP payout, BCH payout & all balances in general. //
-      if(percent > minBCHpayout){
-        dividendPayoutsBCH.push({
-        'address' : slp,
-        'balance' : bal,
-        'percent' : percent
-        })
-
-       dividendlengthBCH++
-      }
-
-
-      if(bal > 400){
-        dividendPayoutsSLP.push({
-        'address' : slp,
-        'balance' : bal,
-        'percent' : percent,
-        'POSpayout': nextPOSpayout
-        })
-
-        dividendlengthSLP++
-      }
-
-      SOURbalances.push({
-        'address' : slp,
-        'balance' : bal,
-        'percent' : percent,
-        'POSpayout': nextPOSpayout
-      })
-    }
-  })
-    
-  
-    console.log('Addresses to receive BCH payout = ' + dividendlengthBCH);
-    console.log('Addresses to receive SLP payout = ' + dividendlengthSLP);
-
-    // console.log(dividendPayouts);
-
-
-    SOURbalances.forEach((balance) => {
-
-
-    totalSOURpayoutAddedup += Number(balance.POSpayout);
-
-    })
-  
-    console.log('Total SOUR Payout to all holders is... '+totalSOURpayoutAddedup);
-
-   //res.set('SOURbalances': dividendPayoutsSLP);
-
-
-  //  res.sendFile(__dirname + '/balances.html');
-
-   res.send(dividendPayoutsSLP);
-
-  } catch (error) {
-    console.error(error)
-  }
-})()
-
-}
 
 function hitSLPDBforSOURid(query, socket) {
 
@@ -613,10 +280,6 @@ var url = 'https://nyc1.slpdb.io/q/ewogICAgInYiOiAzLAogICAgInEiOiB7CiAgICAgICJma
     if (!error && response.statusCode == 200) {
       var res = JSON.parse(body)
   //    console.log(res);
-
-
-
-
 
  //   DEBUG LOGS FOR THE QUERY
  // console.log('=====================');
@@ -800,6 +463,8 @@ console.log(error);
 }
 
 
+// TODO: USE EXPLORER TO HOST AN API FOR SOUR PRICE
+
 let latestTokenPrices = {
   version: 1,
   data: {
@@ -815,14 +480,7 @@ let latestTokenPrices = {
 var spiceprice = 0;
 
 
-// GET BALANCES
 
-app.get('/balances', function (req, res){
-
-getAllSOURbalances(socket, res)
-
-
-})
 
 app.get('/api', function (req, res){
 
@@ -838,14 +496,8 @@ app.get('/api', function (req, res){
 })
 
 
-// PAYOUT POS PAYMENTS
-app.get('/pos-payment', function(req, res){
 
-payoutProofOfSOUR(res);
-
-})
-
-
+// test api for spice price.
 
 app.get('/get', function (req, res){
 
@@ -918,14 +570,6 @@ request.get({
 });
 
 
-app.get('/test', function(req,res){
-
-//res.render('index', {});
-
-
-})
-
-
 
 // USER HAS REQUESTED INDEX / PAGE
 app.get('/', function(req, res){
@@ -960,8 +604,9 @@ io.on('connection', function(socket){
 
 
   // GET PRICE
-  getSOURprice(socket);
+//  getSOURprice(socket);
 
+  getLastSOURMemoSale(socket);
 
 
   //, 10 * 1000);
@@ -1198,6 +843,97 @@ const querylatestSOURmemoSale = {
 
 }
 // })
+
+
+
+function getLastSOURMemoSale(socket){
+
+  setBCHprice();
+ // var url = 'https://slpserve.imaginary.cash/q/ewogICJ2IjogMywKICAicSI6IHsKICAgICJmaW5kIjogewogICAgICAib3V0LmgxIjogIjUzNGM1MDAwIiwKICAgICAgIm91dC5oNCI6ICI2NDQ4MzgxZjk2NDllY2FjZDhjMzAxODljZmJmZWU3MWE5MWI2Yjk3MzhlYTQ5NGZlMzNmOGI4YjUxY2JmY2EwIgogICAgfSwKICAgICJsaW1pdCI6IDEwMAogIH0KfQ==';
+ // var url = 'https://slpdb.bitcoin.com/q/ewogICJ2IjogMywKICAicSI6IHsKICAgICJmaW5kIjogewogICAgICAib3V0LmgxIjogIjUzNGM1MDAwIiwKICAgICAgIm91dC5oNCI6ICI2NDQ4MzgxZjk2NDllY2FjZDhjMzAxODljZmJmZWU3MWE5MWI2Yjk3MzhlYTQ5NGZlMzNmOGI4YjUxY2JmY2EwIgogICAgfSwicHJvamVjdCI6IHsgIm91dCI6IDEsICJpbiI6IDEsICJzbHAiOiAxfSwKICAgICJsaW1pdCI6IDEwMAogIH0KfQ==';
+ // var url = 'https://slpdb.bitcoin.com/q/ewogICJ2IjogMywKICAicSI6IHsKICAgICJmaW5kIjogewogICAgICAib3V0LmgxIjogIjUzNGM1MDAwIiwKICAgICAgIm91dC5oNCI6ICI2NDQ4MzgxZjk2NDllY2FjZDhjMzAxODljZmJmZWU3MWE5MWI2Yjk3MzhlYTQ5NGZlMzNmOGI4YjUxY2JmY2EwIgogICAgfSwicHJvamVjdCI6IHsgImJsayI6IDEsICJvdXQiOiAxLCAiaW4iOiAxLCAic2xwIjogMX0sCiAgICAibGltaXQiOiAxMDAKICB9Cn0=';
+  var url = 'https://slpdb.bitcoin.com/q/ewogICJ2IjogMywKICAicSI6IHsKICAgICJmaW5kIjogewogICAgICAib3V0LmgxIjogIjUzNGM1MDAwIiwKICAgICAgIm91dC5oNCI6ICI2NDQ4MzgxZjk2NDllY2FjZDhjMzAxODljZmJmZWU3MWE5MWI2Yjk3MzhlYTQ5NGZlMzNmOGI4YjUxY2JmY2EwIgogICAgfSwKICAgICJsaW1pdCI6IDEwMAogIH0KfQ==';
+  request(url, async function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var txs = JSON.parse(body)
+
+     // console.log(typeof txs.c);
+txs.c.sort((a, b) => parseFloat(b.blk.t) - parseFloat(a.blk.t));
+
+// const waitFor = (ms) => new Promise(r => setTimeout(r, ms));
+// const start = async () => {
+  
+  // await asyncForEach(txs.c, async (transaction) => {
+  //  await waitFor(50);
+
+  txs.c.some(function(transaction, index) {
+
+    let first = false;
+
+  if(typeof transaction.out !== 'undefined'){
+        // console.log(transaction.out.length);
+       try {
+
+        let outputLength = transaction.out.length;
+
+         if((outputLength == 5)){
+          first = true;
+            let BCHpaid = transaction.out[1].e.v;
+            let SOURsold = transaction.slp.detail.outputs[1].amount;
+            let pricePerSOUR = (BCHpaid / SOURsold);
+
+         //   console.log('AMOUNT OF BCH PAID: ' + BCHpaid);
+         //   console.log('AMOUNT OF SOUR SOLD: ' + SOURsold);
+         //   console.log('TXID: '+ transaction.tx.h);
+       
+          //  let usd = await bitbox.Price.current('usd');
+
+           // let usd = 225;
+
+           // console.log(usd);
+           if(usd !== 0){
+            usd = usd / 100;
+           }
+            let priceInSats = numberWithCommas(pricePerSOUR.toFixed(0));
+
+          //  console.log (usd);
+            let SOURusd = (pricePerSOUR / 100000000) * usd;
+          //  console.log(SOURusd.toFixed(4));
+            SOURusd = SOURusd.toFixed(4);
+
+            let SOUR = {
+                'sats': priceInSats+ ' Satoshis',
+                'bch': (pricePerSOUR / 100000000).toFixed(8)+' BCH',
+                'SOURsold': SOURsold+' SOUR',
+                'usd': SOURusd
+            }
+            
+       //   return SOUR;
+          
+            //   console.log('Sats - '+SOUR.sats+'\nBCH - '+ SOUR.bch+'\nUSD - $'+SOURusd+'\n');
+            setTimeout(function() {
+               socket.emit('chat message', '*SOUR Price on Memo DEX: '+ SOUR.bch + ' ('+ SOUR.sats +'), $'+ SOURusd);
+             }, 3000);
+
+          }
+
+          return first;
+               
+              }catch(error){
+        console.log(error);
+      }
+     }
+     })
+  //  }
+//  start();
+  }
+})
+
+}
+
+
+
+
 
 
 async function getBCHusd(){

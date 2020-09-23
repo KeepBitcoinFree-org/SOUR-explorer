@@ -1,7 +1,7 @@
 {
   "name": "SOUR-explorer",
   "version": "1.0.0",
-  "description": "my first socket.io app",
+  "description": "SOUR SLP token explorer powered by Node.js, socket.io and SLPDB APIs",
   "dependencies": {
     "bitbox-sdk": "^8.11.2",
     "express": "^4.17.1",
