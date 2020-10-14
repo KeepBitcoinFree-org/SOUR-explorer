@@ -1,0 +1,382 @@
+<!doctype html>
+<html>
+  <head>
+    <title>SOUR Tracker</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+      #messages { margin-bottom: 40px; word-break: break-all; }
+      #tracker { margin:2em; }
+      #txupdate {
+        list-style: none;               
+        text-align:left;
+      }
+      #txupdate li { padding: 5px 10px;  }
+      #txupdate-c li:nth-child(odd) { background: #eef9f0; }
+      #txupdate-c li { padding: 2px 4px; }
+
+      #txupdate-u li:nth-child(odd) { background: #fffdda; }
+      #txupdate-u li { padding: 2px 4px; }
+
+      /* CONFIRMED ORDERED LIST */
+      .list-type1 {
+      width:400px;
+      margin:0 auto;
+      }
+
+      .list-type1 ol{
+      counter-reset: li;
+      list-style: none;
+      *list-style: decimal; 
+      font-size: 15px;
+      font-family: 'Raleway', sans-serif;
+      padding: 0;
+      margin-bottom: 4em;
+      }
+      .list-type1 ol ol{
+      margin: 0 0 0 2em;
+      }
+
+      .list-type1 a{
+      position: relative;
+      display: block;
+      padding: .4em .4em .4em 2em;
+      *padding: .4em;
+      margin: .5em 0;
+      background: #93C775;
+      color: #000;
+      text-decoration: none;
+      -moz-border-radius: .3em;
+      -webkit-border-radius: .3em;
+      border-radius: 10em;
+      transition: all .2s ease-in-out;
+      }
+
+      .list-type1 a:hover{
+      background: #d6d4d4;
+      text-decoration:none;
+      transform: scale(1.1);
+      }
+
+      .list-type1 a:before{
+      content: counter(li);
+      counter-increment: li; 
+      position: absolute;
+      left: -1.3em;
+      top: 50%;
+      margin-top: -1.3em;
+      background:#93C775;
+      height: 2em;
+      width: 2em;
+      line-height: 2em;
+      border: .3em solid #fff;
+      text-align: center;
+      font-weight: bold;
+      -moz-border-radius: 2em;
+      -webkit-border-radius: 2em;
+      border-radius: 2em;
+      color:#FFF;
+      }
+
+
+      /* UNCONFIRMED ORDERED LIST */
+
+      .list-type2 {
+      width:400px;
+      margin:0 auto;
+      }
+
+      .list-type2 ol{
+      counter-reset: li;
+      list-style: none;
+      *list-style: decimal; 
+      font-size: 15px;
+      font-family: 'Raleway', sans-serif;
+      padding: 0;
+      margin-bottom: 4em;
+      }
+      .list-type2 ol ol{
+      margin: 0 0 0 2em;
+      }
+
+      .list-type2 a{
+      position: relative;
+      display: block;
+      padding: .4em .4em .4em 2em;
+      *padding: .4em;
+      margin: .5em 0;
+      background: #fbf115;
+      color: #000;
+      text-decoration: none;
+      -moz-border-radius: .3em;
+      -webkit-border-radius: .3em;
+      border-radius: 10em;
+      transition: all .2s ease-in-out;
+      }
+      .list-type2 a:hover{
+      background: #d6d4d4;
+      text-decoration:none;
+      transform: scale(1.1);
+      }
+
+      .list-type2 a:before{
+      content: counter(li);
+      counter-increment: li; 
+      position: absolute;
+      left: -1.3em;
+      top: 50%;
+      margin-top: -1.3em;
+      background: #fbf115;
+      height: 2em;
+      width: 2em;
+      line-height: 2em;
+      border: .3em solid #fff;
+      text-align: center;
+      font-weight: bold;
+      -moz-border-radius: 2em;
+      -webkit-border-radius: 2em;
+      border-radius: 2em;
+      color:#FFF;
+      }
+
+      /* mobile */
+      @media only screen and (max-width: 768px) {
+
+        }
+
+        /* refresh button 
+        https://uigradients.com/#Mini
+        https://www.freecodecamp.org/news/a-quick-guide-to-styling-buttons-using-css-f64d4f96337f/
+        */
+      .btn {
+          background: #00c3ff;  /* fallback for old browsers */
+          background: -webkit-linear-gradient(to bottom, #ffff1c, #00c3ff);  /* Chrome 10-25, Safari 5.1-6 */
+          background: linear-gradient(to bottom, #ffff1c, #00c3ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+          -webkit-border-radius: 28;  -moz-border-radius: 28;  border-radius: 28px;
+          text-shadow: 3px 2px 1px #9daef5;  -webkit-box-shadow: 6px 5px 24px #666666;  -moz-box-shadow: 6px 5px 24px #666666;  box-shadow: 6px 5px 24px #666666;
+          font-family: Arial;  color: black;   font-size: 15px;  padding: 10px;  font-weight: bold; text-decoration: none;}
+
+      .btn:hover {
+        background: #00c3ff;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #ffff1c, #00c3ff);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #ffff1c, #00c3ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        text-decoration: none;}
+
+        /* SIDEBAR NAV for links to github, kbf.org, etc */        
+        .sidenav {
+          width: 50px;
+          position: fixed;
+          z-index: 1;
+          top: 20px;
+          left: 20px;
+          background: #eee;
+          overflow-x: hidden;
+          padding: 8px 0;
+        }
+
+        .sidenav a {
+          padding: auto;
+          padding-top:10px;
+          text-decoration: none;
+          font-size: 25px;
+          color: #2196F3;
+          display: block;
+          text-align:center;
+        }
+
+        .sidenav a:hover {
+          color: #064579;
+          transform: scale(1.4);
+        }
+
+        .main {
+          margin-left: 140px; /* Same width as the sidebar + left position in px */
+          font-size: 28px; /* Increased text to enable scrolling */
+          padding: 0px 10px;
+        }
+
+        @media screen and (max-height: 450px) {
+          .sidenav {padding-top: 15px;}
+          .sidenav a {font-size: 18px;}
+        }
+
+        .faucet-logo {
+          float:right;
+          display:inline;
+        }
+
+        .faucet-logo a {
+        background:none;
+        display: block;
+        padding: .4em .4em .4em 2em;
+        *padding: .4em;
+        margin: .5em 0;
+        color: #000;
+        text-decoration: none;
+        -moz-border-radius: 0em;
+        -webkit-border-radius: 0em;
+        border-radius: 0em;
+        transition: all .2s ease-in-out;
+        }
+
+        .faucet-logo a:hover {
+
+          transform: scale(2);
+          background:none;
+        }
+
+      .faucet-logo a:before{
+      content: none;
+      position: absolute;
+      left: -1.3em;
+      top: 50%;
+      margin-top: -1.3em;
+      background: none;
+      line-height: 0em;
+      height:0em;
+      width:0em;
+      border: none;
+      text-align: center;
+      font-weight: bold;
+      -moz-border-radius: 0em;
+      -webkit-border-radius: 0em;
+      border-radius: 0em;
+      }
+
+
+      .glow {
+  color: #fff;
+  text-align: center;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #ffd700, 0 0 40px #ffd700, 0 0 50px #ffd700, 0 0 60px #ffd700, 0 0 70px #ffd700;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #90d2d8, 0 0 40px #90d2d8, 0 0 50px #90d2d8, 0 0 60px #90d2d8, 0 0 70px #90d2d8, 0 0 80px #90d2d8;
+  }
+}
+
+    </style>
+
+  </head>
+  <body>
+      <div class="sidenav">
+
+        <a href="https://keepbitcoinfree.org/SOUR" target="_blank"><img src="https://keepbitcoinfree.org/wp-content/uploads/SOUR.png"  height="30px" width="30px" /></a>
+
+        <a href="https://keepbitcoinfree.org" target="_blank"><img src="https://keepbitcoinfree.org/wp-content/uploads/2019/10/profile-tilt-WHITEB.png" height="30px" width="30px" /></a>
+
+        <a href="https://memo.cash/token/6448381f9649ecacd8c30189cfbfee71a91b6b9738ea494fe33f8b8b51cbfca0?for-sale"><img src="http://sour-faucet.ddns.net/img/memo-m.png" height="30px" width="30px" /></a>
+
+        <a href="https://github.com/KeepBitcoinFree-org/SOUR-explorer" target="_blank"><img src="https://duckduckgo.com/i/73cc1cc7.png" height="30px" width="30px" /></a>
+
+        <a href="http://sour-faucet.ddns.net" target="_blank"><img src="https://keepbitcoinfree.org/wp-content/uploads/sour-faucet-2.png" height="30px" width="30px" /></a>
+<!--
+        <input type='text' id='link_id' />
+        <input type='button' id='link' value='Search' onClick='goTo()' /> 
+     -->
+      </div>
+
+       <div style="width:70%;margin: 0 auto;">
+
+        <div style="float:right; display: inline;padding-right:75px;padding-top:15px;">
+            <a href="https://keepbitcoinfree.org/SOUR" target="_blank"><img src="https://keepbitcoinfree.org/wp-content/uploads/SOUR.png"  height="350px" width="350px" /></a>
+
+  </div >
+<ul style="font-weight: bold;" id="messages">
+  
+  <p class="glow">
+  <a href="https://memo.cash/token/6448381f9649ecacd8c30189cfbfee71a91b6b9738ea494fe33f8b8b51cbfca0?for-sale" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color:black;">
+&nbsp; &nbsp; &nbsp; GET &nbsp; <img src="https://tokens.bch.sx/64/6448381f9649ecacd8c30189cfbfee71a91b6b9738ea494fe33f8b8b51cbfca0.png" /> on  Memo.cash DEX &nbsp;
+<img src="https://memo.cash/img/memo-logo-large.png" height="50px" width="90px" /> 
+</a><br /><br /> </p>
+</ul>
+
+
+    </div>
+   
+
+   <center>
+
+
+    <button class="btn" onClick="window.location.reload();">Refresh Page</button></center><br /><br />
+    <!-- UNCONFIRMED TX -->
+   <div style="width:100%;">
+      <div class="list-type2" style="width:70%;margin: 0 auto;">
+        <ol id="txupdate-u">
+         <h2> LATEST UNCONFIRMED (PENDING) SOUR TXs</h2> <hr /> 
+        </ol>
+      </div>
+  </div>
+      <!-- CONFIRMED TX -->
+   <div style="width:100%;">
+      <div class="list-type1" style="width:70%;margin: 0 auto;">
+        <ol id="txupdate-c">
+            <h2> LATEST CONFIRMED (COMPLETED) SOUR TXs </h2> <hr />
+        </ol>
+      </div>
+  </div>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      $(function () {
+        var socket = io();
+        // $('form').submit(function(){
+        //   socket.emit('chat message', $('#m').val());
+        //   $('#m').val('');
+        //   return false;
+        // });
+        socket.on('chat message', function(msg){
+          $('#messages').append($('<li>').text(msg));
+        });
+        socket.on('tx-uo', function(msg){
+          $('#txupdate-u').append($('<li>').text(msg));
+        });
+        socket.on('tx-u', function(msg){
+          $('#txupdate-u').append($('<a href="#">').text(msg));
+        //  window.scrollTo(0, document.body.scrollHeight);
+        });
+          socket.on('tx-co', function(msg){
+          $('#txupdate-c').append($('<li>').text(msg));
+        //  window.scrollTo(0, document.body.scrollHeight);
+        });
+          socket.on('tx-c', function(msg){
+          $('#txupdate-c').append($('<a href="#">').text(msg));
+        //  window.scrollTo(0, document.body.scrollHeight);
+        });
+        socket.on('tx-logo', function(msg){
+          $('#txupdate').append($('<li style="font-weight:bold;line-height:.3em;text-align:center;">').text(msg));
+        //  window.scrollTo(0, document.body.scrollHeight);
+        });
+        //faucet-image
+        socket.on('tx-co-f', function(msg){
+          $('#txupdate-c').append($('<span class="faucet-logo"><a href="http://sour-faucet.ddns.net" target="_blank"><img src="https://keepbitcoinfree.org/wp-content/uploads/sour-faucet-2.png" height="40px" width="80px" /></a></span>'));
+        //  window.scrollTo(0, document.body.scrollHeight);
+        });
+        socket.on('tx-uo-f', function(msg){
+          $('#txupdate-u').append($('<span class="faucet-logo"><a href="http://sour-faucet.ddns.net" target="_blank"><img src="https://keepbitcoinfree.org/wp-content/uploads/sour-faucet-2.png" height="40px" width="80px" /></a></span>'));
+        //  window.scrollTo(0, document.body.scrollHeight);
+        });
+
+
+      });
+
+      function goTo() {
+        location.href = document.getElementById('link_id').value;
+      }
+    </script>
+  </body>
+</html>
